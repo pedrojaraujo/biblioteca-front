@@ -1,13 +1,16 @@
 'use client';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loginUser } from '@/services/libraryService';
+import { useRouter } from 'next/navigation';
+
 
 export default function Login() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,10 +23,9 @@ export default function Login() {
     try {
       const data = await loginUser({ user, pass: password });
       if (data.token) {
-        setLogin(true);
         console.log('Login bem-sucedido:', data);
-        // Salvar token no localStorage, se necessário
         localStorage.setItem('token', data.token);
+        setLogin(true);
       } else if (data.error) {
         alert(data.error); // Mostra a mensagem de erro retornada
       }
@@ -32,6 +34,14 @@ export default function Login() {
       alert('Erro ao realizar login. Tente novamente mais tarde.');
     }
   };
+
+  useEffect(() => {
+    if (login === true) {
+
+      router.push('/books')
+    }
+  }, [login])
+
   return (
     <main>
       <form

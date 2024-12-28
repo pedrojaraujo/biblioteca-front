@@ -18,7 +18,7 @@ export const loginUser = async (userInfo: UserInfo) => {
 };
 
 export const getBooks = async () => {
-  const response = await apiClient.get('/');
+  const response = await apiClient.get('/books');
   return response.data;
 };
 
