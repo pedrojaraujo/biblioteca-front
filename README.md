@@ -55,3 +55,7 @@ Este projeto foi criado com foco em **aprendizado e desenvolvimento de habilidad
 
    ```bash
    http://localhost:3000
+
+## **Licença**
+
+Este projeto é licenciado sob os termos da licença MIT. Consulte o arquivo [LICENSE](./LICENSE) para obter mais detalhes.
