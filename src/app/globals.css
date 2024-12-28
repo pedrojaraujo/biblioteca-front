@@ -5,17 +5,30 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --input-background: #f0f0f0;
+  --input-text: #000000;
+  --input-border: #cccccc;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+[data-theme='dark'] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --input-background: #333333;
+  --input-text: #ffffff;
+  --input-border: #555555;
 }
 
 body {
-  color: var(--background);
-  background: var(--foreground);
+  color: var(--foreground);
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.MuiOutlinedInput-root {
+  background-color: var(--input-background);
+  color: var(--input-text);
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--input-border);
 }

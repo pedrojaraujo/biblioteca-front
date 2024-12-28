@@ -1,5 +1,7 @@
-import type { Metadata } from 'next';
+"use client"
+import { useState, useEffect } from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
+import Switch from '@mui/material/Switch';
 import './globals.css';
 
 const geistSans = Geist({
@@ -12,21 +14,35 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-  title: 'Gerenciador',
-  description: 'Gerenciador de biblioteca',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <html lang="pt-br">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <label>
+          <Switch onChange={toggleTheme} />
+        </label>
         {children}
       </body>
     </html>

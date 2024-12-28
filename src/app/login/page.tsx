@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import { useState, useEffect } from 'react';
 import { loginUser } from '@/services/libraryService';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { LogoDev } from '@mui/icons-material';
 
 
 export default function Login() {
@@ -45,9 +47,12 @@ export default function Login() {
   return (
     <main>
       <form
-        className="flex h-auto w-[350px] flex-col items-center justify-center gap-5"
+        className="flex h-auto w-[350px] flex-col items-center justify-center gap-3"
         onSubmit={handleLogin}
       >
+        <div className="mb-5">
+          <Image src={"/logo.svg"} alt='Logo' width={180} height={180} />
+        </div>
         <div className="w-full">
           <TextField
             className="w-full"
