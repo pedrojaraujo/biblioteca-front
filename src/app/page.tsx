@@ -1,9 +1,22 @@
-import Login from "./login/page";
+"use client"
+
+import Navbar from '@/components/NavBar/Navbar';
+import { useState } from 'react';
+import { darkTheme, lightTheme } from '@/themes/theme';
+import { ThemeProvider } from '@emotion/react';
 
 export default function Home() {
+  const [theme, setTheme] = useState(lightTheme);
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme === 'light' ? lightTheme : darkTheme);
+  };
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center">
-      <Login />
-    </main>
+    <>
+      <ThemeProvider theme={theme}>
+        <header>
+          <Navbar onThemeChange={handleThemeChange} />
+        </header>
+      </ThemeProvider>
+    </>
   );
 }

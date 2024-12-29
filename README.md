@@ -36,25 +36,34 @@ Este projeto foi criado com foco em **aprendizado e desenvolvimento de habilidad
    ```bash
    git clone https://github.com/pedrojaraujo/biblioteca-front.git
 
+   ```
+
 2. Navegue até o diretório do projeto:
 
    ```bash
    cd biblioteca-front
+
+   ```
 
 3. Instale as dependências:
 
    ```bash
    npm install
 
+   ```
+
 4. Inicie o servidor de desenvolvimento
 
    ```bash
    npm run dev
 
+   ```
+
 5. Acesse o aplicativo no navegador:
 
    ```bash
    http://localhost:3000
+   ```
 
 ## **Licença**
 

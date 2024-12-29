@@ -1,21 +1,17 @@
-'use client';
-
-import * as React from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import Paper from '@mui/material/Paper';
+"use client"
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getBooks } from '@/services/libraryService';
+import { ThemeProvider } from '@mui/material/styles';
+import { Paper } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import Navbar from '../../components/NavBar/Navbar';
+import { lightTheme, darkTheme } from '@/themes/theme';
+import { getBooks } from '@/services/libraryService'; // Certifique-se de importar a função de busca de livros
 
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'author', headerName: 'Nome do autor', width: 250 },
-  { field: 'title', headerName: 'Nome do livro', width: 250 },
-];
-
-export default function Books() {
+export default function BooksPage() {
   const router = useRouter();
   const [books, setBooks] = useState([]);
+  const [theme, setTheme] = useState(lightTheme);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,31 +32,51 @@ export default function Books() {
     fetchBooks();
   }, [router]);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme === 'light' ? lightTheme : darkTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme === 'light' ? lightTheme : darkTheme);
+  };
+
   if (loading) {
     return <div>Carregando livros...</div>;
   }
 
   return (
-    <main className="h-screen w-screen flex flex-col justify-center items-center">
-      <Paper sx={{ height: 400, width: '40%' }}>
-        <DataGrid
-          rows={books} // Dados dinâmicos
-          columns={columns}
-          localeText={{
-            MuiTablePagination: {
-              labelRowsPerPage: 'Linhas por página',
-            },
-          }}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-          sx={{ border: 0 }}
-        />
-      </Paper>
-    </main>
+    <ThemeProvider theme={theme}>
+      <header>
+        <Navbar onThemeChange={handleThemeChange} />
+      </header>
+      <main className="mt-48 flex h-full max-h-screen w-full flex-col items-center justify-center">
+        <Paper sx={{ height: 400, width: '40%' }}>
+          <DataGrid
+            rows={books} // Dados dinâmicos
+            columns={[
+              { field: 'id', headerName: 'ID', width: 90 },
+              { field: 'title', headerName: 'Título', width: 150 },
+              { field: 'author', headerName: 'Autor', width: 150 },
+              // Adicione mais colunas conforme necessário
+            ]}
+            localeText={{
+              MuiTablePagination: {
+                labelRowsPerPage: 'Linhas por página',
+              },
+            }}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+            sx={{ border: 0 }}
+          />
+        </Paper>
+      </main>
+    </ThemeProvider>
   );
 }
