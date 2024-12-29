@@ -1,7 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" style="background: none;">
-  <rect width="200" height="200" fill="none"/>
-  <path d="M50 30 Q60 10, 70 30 T90 30 Q100 10, 110 30 T130 30 Q140 10, 150 30 T170 30" fill="#007BFF"/>
-  <rect x="50" y="40" width="20" height="100" fill="#28A745"/>
-  <rect x="90" y="60" width="20" height="80" fill="#343A40"/>
-  <rect x="130" y="50" width="20" height="90" fill="#007BFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Outer Circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#4A90E2" stroke-width="6" />
+  
+  <!-- Inner Circle -->
+  <circle cx="100" cy="100" r="85" fill="#FFFFFF" stroke="#4A90E2" stroke-width="2" />
+  
+  <!-- Book Icon -->
+  <path d="M80 90 L100 75 L120 90 V135 L100 125 L80 135 Z" fill="#E8F1FA" stroke="#4A90E2" stroke-width="2" />
+  <line x1="100" y1="75" x2="100" y2="125" stroke="#4A90E2" stroke-width="2" />
+  <line x1="90" y1="100" x2="110" y2="100" stroke="#4A90E2" stroke-width="1.5" />
+  
+
+  
+  <!-- Decorative Outer Text -->
+  <text x="100" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="14" fill="#4A90E2">Gerenciador</text>
 </svg>

@@ -9,12 +9,12 @@ import Navbar from '@/components/NavBar/Navbar';
 import { ThemeProvider } from '@mui/material/styles';
 import { lightTheme, darkTheme } from '@/themes/theme';
 import { loginUser } from '@/services/libraryService';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Login() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(false);
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState(lightTheme);
   const router = useRouter();
@@ -23,12 +23,12 @@ export default function Login() {
     e.preventDefault();
 
     if (!user || !password) {
-      setError('Preencha usuário e senha!');
+      toast.error('Preencha usuário e senha!');
       return;
     }
 
     setLoading(true);
-    setError('');
+
 
     try {
       const data = await loginUser({ user, pass: password });
@@ -37,11 +37,11 @@ export default function Login() {
         localStorage.setItem('token', data.token);
         setLogin(true);
       } else if (data.error) {
-        setError(data.error); // Mostra a mensagem de erro retornada
+        toast.error(data.error);
       }
     } catch (error) {
       console.error('Erro inesperado:', error);
-      setError('Erro ao realizar login. Tente novamente mais tarde.');
+      toast.error('Erro ao realizar login. Tente novamente mais tarde.');
     } finally {
       setLoading(false);
     }
@@ -57,8 +57,10 @@ export default function Login() {
     setTheme(newTheme === 'light' ? lightTheme : darkTheme);
   };
 
+
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer theme='colored' />
       <Navbar onThemeChange={handleThemeChange} />
       <main className="mt-32 flex h-full w-full items-center justify-center">
         <form
@@ -66,7 +68,7 @@ export default function Login() {
           onSubmit={handleLogin}
         >
           <div className="mb-5">
-            <Image src="/logo.svg" alt="Logo" width={180} height={180} />
+            <Image src="/logo.svg" alt="Logo" width={200} height={200} />
           </div>
           <div className="w-full">
             <TextField
@@ -90,7 +92,6 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {error && <div className="text-red-500">{error}</div>}
           <div className="flex w-full justify-center">
             <Button
               className="w-3/4"

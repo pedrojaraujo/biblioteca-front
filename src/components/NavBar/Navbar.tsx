@@ -28,7 +28,7 @@ export default function Navbar({ onThemeChange }: NavbarProps) {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-gray-800 p-4 px-20">
+    <nav className="flex items-center justify-between bg-gray-800 p-4 px-20 text-sm font-bold">
       <div className="flex items-center space-x-2 text-white">
         {theme === 'light' ? <LightModeIcon /> : <DarkModeIcon />}
         <span>{theme === 'light' ? 'Claro' : 'Escuro'}</span>
