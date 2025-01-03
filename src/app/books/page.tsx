@@ -79,12 +79,12 @@ export default function BooksPage() {
         <main className="flex h-auto flex-col items-center justify-center">
           <Grid container spacing={5} sx={{ padding: 2 }}>
             {books.map((book: Book) => (
-              <Grid size={2} spacing={3} key={book.id}>
-                <Card sx={{ width: 200, position: 'relative' }}>
+              <Grid size={2} spacing={5} key={book.id}>
+                <Card sx={{ width: 200, height: 300, position: 'relative' }}>
                   <Box sx={{ position: 'relative' }}>
                     <CardMedia
                       component="img"
-                      height={80}
+                      height={120}
                       image={book.imageURL || '/book.jpg'}
                       alt={book.title || 'Livro sem título'}
                     />
@@ -104,8 +104,8 @@ export default function BooksPage() {
                   </Box>
                   <CardContent>
                     <Typography variant="h6" fontSize={16} component="div">
-                      {book.title.length > 20
-                        ? book.title.substring(0, 20) + '...'
+                      {book.title.length > 15
+                        ? book.title.substring(0, 15) + '...'
                         : book.title}
                     </Typography>
                     <Typography
