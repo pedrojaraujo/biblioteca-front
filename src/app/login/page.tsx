@@ -29,11 +29,9 @@ export default function Login() {
 
     setLoading(true);
 
-
     try {
-      const data = await loginUser({ user, pass: password });
+      const data = await loginUser({ user: user, pass: password });
       if (data.token) {
-        console.log('Login bem-sucedido:', data);
         localStorage.setItem('token', data.token);
         setLogin(true);
       } else if (data.error) {
@@ -57,10 +55,9 @@ export default function Login() {
     setTheme(newTheme === 'light' ? lightTheme : darkTheme);
   };
 
-
   return (
     <ThemeProvider theme={theme}>
-      <ToastContainer theme='colored' />
+      <ToastContainer theme="colored" />
       <Navbar onThemeChange={handleThemeChange} />
       <main className="mt-32 flex h-full w-full items-center justify-center">
         <form

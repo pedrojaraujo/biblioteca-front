@@ -1,6 +1,6 @@
 import { UserInfo } from '@/interfaces/user';
 import apiClient from './apiClient';
-import { BookCreate, BookDelete, BookUpdate } from '@/interfaces/bookinfo';
+import { BookCreate, BookDelete, Book } from '@/interfaces/bookinfo';
 
 export const loginUser = async (userInfo: UserInfo) => {
   try {
@@ -8,10 +8,8 @@ export const loginUser = async (userInfo: UserInfo) => {
     return response.data;
   } catch (error: any) {
     if (error.response) {
-      // Erros enviados pelo back-end
-      return error.response.data; // Retorna a mensagem de erro do back-end
+      return error.response.data;
     } else {
-      // Erros genéricos
       throw new Error('Erro na conexão com o servidor');
     }
   }
@@ -27,7 +25,7 @@ export const addBook = async (bookInfo: BookCreate) => {
   return response.data;
 };
 
-export const updateBook = async (bookInfo: BookUpdate) => {
+export const updateBook = async (bookInfo: Book) => {
   const response = await apiClient.put('/update-book', bookInfo);
   return response.data;
 };

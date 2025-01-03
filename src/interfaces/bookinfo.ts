@@ -3,10 +3,11 @@ export interface BookCreate {
   author: string;
 }
 
-export interface BookUpdate {
+export interface Book {
   id: number;
   title: string;
   author: string;
+  imageURL?: string;
 }
 
 export interface BookDelete {
