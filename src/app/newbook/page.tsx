@@ -7,8 +7,11 @@ import { useState } from 'react';
 import { addBook } from '@/services/libraryService';
 import { BookCreate } from '@/interfaces/bookinfo';
 import { ToastContainer, toast } from 'react-toastify';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function NewBook() {
+  useAuth();
+
   const { theme, handleThemeChange } = useTheme();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');

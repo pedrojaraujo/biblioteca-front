@@ -25,5 +25,5 @@ export const useBooks = () => {
     fetchBooks();
   }, [router]);
 
-  return { books, loading };
+  return { books, loading, setBooks };
 };

@@ -6,7 +6,12 @@ import {
   CardMedia,
   Typography,
   IconButton,
-  Box
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import Navbar from '@/components/NavBar/Navbar';
@@ -14,26 +19,59 @@ import { useBooks } from '@/hooks/useBooks';
 import { useTheme } from '@/hooks/useThemes';
 import { Book } from '@/interfaces/bookinfo';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteBook } from '@/services/libraryService';
+import { BookDelete } from '@/interfaces/bookinfo';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function BooksPage() {
-  const { books, loading } = useBooks();
+  const { books, loading, setBooks } = useBooks();
   const { theme, handleThemeChange } = useTheme();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
+
+  const handleOpenConfirmation = (bookId: number) => {
+    setSelectedBookId(bookId);
+    setConfirmOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setConfirmOpen(false);
+    setSelectedBookId(null);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    if (selectedBookId) {
+      try {
+        await deleteBook({ id: selectedBookId });
+        setBooks((prevBooks) =>
+          prevBooks.filter((book: BookDelete) => book.id !== selectedBookId)
+        );
+        toast.success('Livro deletado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao deletar o livro:', error);
+        toast.error('Erro ao deletar o livro. Tente novamente mais tarde.');
+      }
+    }
+    setConfirmOpen(false);
+    setSelectedBookId(null);
+  };
 
   if (loading) {
-    return <div>Carregando livros...</div>;
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center">
+        Carregando...
+      </div>
+    );
   }
 
   if (!books.length) {
     return <div>Nenhum livro disponível no momento.</div>;
   }
 
-  const handleDelete = (bookId: number) => {
-    // Adicione a lógica para deletar o livro aqui
-    console.log(`Deletar livro com ID: ${bookId}`);
-  };
-
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer theme="colored" />
       <div className="flex w-full flex-col justify-center gap-14">
         <header>
           <Navbar onThemeChange={handleThemeChange} />
@@ -51,15 +89,15 @@ export default function BooksPage() {
                       alt={book.title || 'Livro sem título'}
                     />
                     <IconButton
-                      onClick={() => handleDelete(book.id)}
+                      onClick={() => handleOpenConfirmation(book.id)}
                       aria-label="delete"
                       sx={{
                         position: 'absolute',
                         top: 3,
-                        right:3,
+                        right: 3,
                         zIndex: 10,
                       }}
-                      color='error'
+                      color="error"
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -70,7 +108,11 @@ export default function BooksPage() {
                         ? book.title.substring(0, 20) + '...'
                         : book.title}
                     </Typography>
-                    <Typography variant="body2" fontSize={12} color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      fontSize={12}
+                      color="text.secondary"
+                    >
                       Autor: {book.author}
                     </Typography>
                   </CardContent>
@@ -78,6 +120,18 @@ export default function BooksPage() {
               </Grid>
             ))}
           </Grid>
+          <Dialog open={confirmOpen} onClose={handleCloseConfirmation}>
+            <DialogTitle>Confirmar Exclusão</DialogTitle>
+            <DialogContent>
+              Tem certeza de que deseja deletar este livro?
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseConfirmation}>Cancelar</Button>
+              <Button onClick={handleDeleteConfirmed} color="error">
+                Deletar
+              </Button>
+            </DialogActions>
+          </Dialog>
         </main>
       </div>
     </ThemeProvider>
